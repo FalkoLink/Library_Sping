@@ -14,7 +14,7 @@
             <td><a th:text="${book.getTitle()}" th:href="@{/books/{id}(id=${book.getId()})}"></a></td>
             <td th:text="${book.getAuthor()}"></td>
             <td th:text="${book.getPublished_on()}"></td>
-            <td th:text="${book.getUser_id()}? ${book.getUser_id()}:'Free'"></td>
+            <td th:text="${book.getUser_id()}? 'busy':'Free'"></td>
         </tr>
     </table>
     <p th:if="${books.isEmpty()}">Empty</p>

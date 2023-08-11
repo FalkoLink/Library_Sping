@@ -4,9 +4,11 @@ import com.example.library.DAO.BookDAO;
 import com.example.library.DAO.UserDAO;
 import com.example.library.Models.Book;
 import com.example.library.Models.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -56,7 +58,9 @@ public class BooksController {
     }
 
     @PostMapping()
-    public String save(@ModelAttribute("book") Book book){
+    public String save(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult){
+        if (bindingResult.hasErrors())
+            return "books/create";
         bookDAO.save(book);
         return "redirect:/books";
     }
@@ -68,7 +72,9 @@ public class BooksController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("book") Book book, @PathVariable("id") int id){
+    public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult, @PathVariable("id") int id){
+        if (bindingResult.hasErrors())
+            return "books/edit";
         bookDAO.update(book,id);
         return "redirect:/books";
     }

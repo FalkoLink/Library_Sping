@@ -3,9 +3,11 @@ package com.example.library.Controllers;
 import com.example.library.DAO.BookDAO;
 import com.example.library.DAO.UserDAO;
 import com.example.library.Models.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -38,7 +40,9 @@ public class UsersController {
     }
 
     @PostMapping()
-    public String save(@ModelAttribute("user") User user){
+    public String save(@ModelAttribute("user") @Valid User user, BindingResult bindingResult){
+        if (bindingResult.hasErrors())
+            return "users/create";
         userDAO.save(user);
         return "redirect:/users";
     }
@@ -50,7 +54,9 @@ public class UsersController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id){
+    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") int id){
+        if (bindingResult.hasErrors())
+            return "users/create";
         userDAO.update(user,id);
         return "redirect:/users";
     }
@@ -60,5 +66,4 @@ public class UsersController {
         userDAO.delete(id);
         return "redirect:/users";
     }
-
 }

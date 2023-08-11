@@ -9,10 +9,12 @@
   <form th:method="PATCH" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
     <label for="FullName">Full name</label>
     <input type="text" th:field="*{full_name}" id="FullName">
-    <label for="Birthday">Birthday</label>
+      <div style="color:red" th:if="${#fields.hasErrors('full_name')}" th:errors="*{full_name}"></div>
+      <label for="Birthday">Birthday</label>
     <input type="number" th:field="*{birth}" id="Birthday"
            min="1900" max="2099" step="1">
-    <input type="submit" value="Send">
+      <div style="color:red" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}"></div>
+      <input type="submit" value="Send">
   </form>
 </body>
 </html>
